@@ -31,3 +31,22 @@ def cargar_datos_con_indice(archivo):
                     indice_categoria[categoria].append(id_parte)
                 linea += 1
     return inventario, indice_id, indice_categoria
+
+# Función para guardar datos (sobrescribe el archivo)
+def guardar_datos(datos, archivo):
+    with open(archivo, 'w') as file:
+        for id_parte, info in datos.items():
+            file.write(f"{id_parte},{info['nombre']},{info['fabricante']},{info['categoria']},{info['cantidad']}\n")
+
+# Función para agregar un nuevo componente y actualizar índices
+def agregar_componente(datos, archivo, id_parte, nombre, fabricante, categoria, cantidad):
+    datos[id_parte] = {
+        "nombre": nombre,
+        "fabricante": fabricante,
+        "categoria": categoria,
+        "cantidad": cantidad
+    }
+    guardar_datos(datos, archivo)
+    # Recargar datos e índices para reflejar el cambio
+    inventario_actualizado, indice_id_actualizado, indice_categoria_actualizado = cargar_datos_con_indice(archivo)
+    return inventario_actualizado, indice_id_actualizado, indice_categoria_actualizado

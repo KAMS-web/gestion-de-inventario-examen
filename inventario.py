@@ -9,4 +9,7 @@ def cargar_datos(archivo):
     except FileNotFoundError:
         return []
     
-    
+# Función para guardar datos en un archivo
+def guardar_datos(datos, archivo):
+    with open(archivo, 'w') as file:
+        json.dump(datos, file, indent=4)    

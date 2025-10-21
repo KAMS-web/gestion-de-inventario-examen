@@ -50,3 +50,25 @@ def agregar_componente(datos, archivo, id_parte, nombre, fabricante, categoria, 
     # Recargar datos e índices para reflejar el cambio
     inventario_actualizado, indice_id_actualizado, indice_categoria_actualizado = cargar_datos_con_indice(archivo)
     return inventario_actualizado, indice_id_actualizado, indice_categoria_actualizado
+
+# Función para buscar por ID con seek()
+def buscar_por_id_con_seek(archivo, indice_id, id_parte):
+    if id_parte in indice_id:
+        with open(archivo, 'r') as file:
+            file.seek(indice_id[id_parte])  # Acceso directo a la posición
+            linea = file.readline().strip().split(',')
+            if len(linea) == 5:
+                return {
+                    "nombre": linea[1],
+                    "fabricante": linea[2],
+                    "categoria": linea[3],
+                    "cantidad": int(linea[4])
+                }
+    return "Componente no encontrado"
+
+# Función para buscar por categoría usando el índice
+def buscar_por_categoria(indice_categoria, inventario, categoria):
+    if categoria in indice_categoria:
+        resultados = {id: inventario[id] for id in indice_categoria[categoria]}
+        return resultados if resultados else "No se encontraron componentes en esta categoría"
+    return "Categoría no encontrada"

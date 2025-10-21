@@ -1,8 +1,13 @@
+import os
+
 # Función para cargar datos con índice y acceso directo
 def cargar_datos_con_indice(archivo):
     inventario = {}
     indice_id = {}
     indice_categoria = {}
+    if not os.path.exists(archivo):
+        with open(archivo, 'w') as file:
+            pass  # Crea el archivo vacío si no existe
     with open(archivo, 'r') as file:
         linea = 0
         while True:
@@ -26,4 +31,3 @@ def cargar_datos_con_indice(archivo):
                     indice_categoria[categoria].append(id_parte)
                 linea += 1
     return inventario, indice_id, indice_categoria
-
